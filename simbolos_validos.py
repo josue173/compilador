@@ -4,7 +4,7 @@ import ply.lex as lex
 tokens = [
     'NUMBER', 'IDENTIFIER', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 
     'LPAREN', 'RPAREN', 'ASSIGN', 'NEWLINE', 'FOR', 'WHILE', 
-    'INT', 'FLOAT', 'BOOL'
+    'INT', 'FLOAT', 'BOOL', 'COMMENT'
 ]
 
 # Reglas de tokens con expresiones regulares
@@ -37,6 +37,11 @@ reserved = {
 
 # Ignorar espacios y tabulaciones
 t_ignore = ' \t'
+
+# Manejo de comentarios
+def t_COMMENT(t):
+    r'\#.*'
+    pass  # Se ignoran los comentarios
 
 # Manejo de saltos de línea
 def t_NEWLINE(t):
