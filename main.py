@@ -1,4 +1,4 @@
-from parser import parser
+from semantic import parser
 
 while True:
     try:
@@ -7,5 +7,8 @@ while True:
         break
     if not s:
         continue
-    result = parser.parse(s)
-    print(result)
+    try:
+        result = parser.parse(s)
+        print(result)
+    except Exception as e:
+        print(e)

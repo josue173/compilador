@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDEASSIGN BOOL COMMENT DIVIDE FLOAT FOR IDENTIFIER INT LPAREN MINUS NEWLINE NUMBER PLUS RPAREN TIMES WHILEstatement : expression\n| assignmentexpression : expression PLUS expression\n| expression MINUS expression\n| expression TIMES expression\n| expression DIVIDE expressionexpression : NUMBERexpression : IDENTIFIERassignment : IDENTIFIER ASSIGN expressionexpression : LPAREN expression RPAREN'
+_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDEASSIGN BOOL COMMENT DIVIDE FLOAT FOR IDENTIFIER INT LPAREN MINUS NEWLINE NUMBER PLUS RPAREN TIMES WHILEstatement : INT IDENTIFIER\n| FLOAT IDENTIFIER\n| BOOL IDENTIFIERstatement : expression\n| assignmentexpression : expression PLUS expression\n| expression MINUS expression\n| expression TIMES expression\n| expression DIVIDE expressionexpression : NUMBERexpression : IDENTIFIERassignment : IDENTIFIER ASSIGN expressionexpression : LPAREN expression RPAREN'
     
-_lr_action_items = {'NUMBER':([0,6,7,8,9,10,11,],[4,4,4,4,4,4,4,]),'IDENTIFIER':([0,6,7,8,9,10,11,],[5,13,13,13,13,13,13,]),'LPAREN':([0,6,7,8,9,10,11,],[6,6,6,6,6,6,6,]),'$end':([1,2,3,4,5,13,14,15,16,17,18,19,],[0,-1,-2,-7,-8,-8,-3,-4,-5,-6,-9,-10,]),'PLUS':([2,4,5,12,13,14,15,16,17,18,19,],[7,-7,-8,7,-8,-3,-4,-5,-6,7,-10,]),'MINUS':([2,4,5,12,13,14,15,16,17,18,19,],[8,-7,-8,8,-8,-3,-4,-5,-6,8,-10,]),'TIMES':([2,4,5,12,13,14,15,16,17,18,19,],[9,-7,-8,9,-8,9,9,-5,-6,9,-10,]),'DIVIDE':([2,4,5,12,13,14,15,16,17,18,19,],[10,-7,-8,10,-8,10,10,-5,-6,10,-10,]),'RPAREN':([4,12,13,14,15,16,17,19,],[-7,19,-8,-3,-4,-5,-6,-10,]),'ASSIGN':([5,],[11,]),}
+_lr_action_items = {'INT':([0,],[2,]),'FLOAT':([0,],[4,]),'BOOL':([0,],[5,]),'NUMBER':([0,9,11,14,15,16,17,],[8,8,8,8,8,8,8,]),'IDENTIFIER':([0,2,4,5,9,11,14,15,16,17,],[3,10,12,13,19,19,19,19,19,19,]),'LPAREN':([0,9,11,14,15,16,17,],[9,9,9,9,9,9,9,]),'$end':([1,3,6,7,8,10,12,13,19,20,21,22,23,24,25,],[0,-11,-4,-5,-10,-1,-2,-3,-11,-12,-6,-7,-8,-9,-13,]),'PLUS':([3,6,8,18,19,20,21,22,23,24,25,],[-11,14,-10,14,-11,14,-6,-7,-8,-9,-13,]),'MINUS':([3,6,8,18,19,20,21,22,23,24,25,],[-11,15,-10,15,-11,15,-6,-7,-8,-9,-13,]),'TIMES':([3,6,8,18,19,20,21,22,23,24,25,],[-11,16,-10,16,-11,16,16,16,-8,-9,-13,]),'DIVIDE':([3,6,8,18,19,20,21,22,23,24,25,],[-11,17,-10,17,-11,17,17,17,-8,-9,-13,]),'ASSIGN':([3,],[11,]),'RPAREN':([8,18,19,21,22,23,24,25,],[-10,25,-11,-6,-7,-8,-9,-13,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,6,7,8,9,10,11,],[2,12,14,15,16,17,18,]),'assignment':([0,],[3,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,9,11,14,15,16,17,],[6,18,20,21,22,23,24,]),'assignment':([0,],[7,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,14 +27,17 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> expression','statement',1,'p_statement_expr','parser.py',12),
-  ('statement -> assignment','statement',1,'p_statement_expr','parser.py',13),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',17),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',18),
-  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','parser.py',19),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','parser.py',20),
-  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',24),
-  ('expression -> IDENTIFIER','expression',1,'p_expression_identifier','parser.py',28),
-  ('assignment -> IDENTIFIER ASSIGN expression','assignment',3,'p_assignment','parser.py',32),
-  ('expression -> LPAREN expression RPAREN','expression',3,'p_grouped_expression','parser.py',36),
+  ('statement -> INT IDENTIFIER','statement',2,'p_statement_declaration','semantic.py',28),
+  ('statement -> FLOAT IDENTIFIER','statement',2,'p_statement_declaration','semantic.py',29),
+  ('statement -> BOOL IDENTIFIER','statement',2,'p_statement_declaration','semantic.py',30),
+  ('statement -> expression','statement',1,'p_statement_expr','semantic.py',35),
+  ('statement -> assignment','statement',1,'p_statement_expr','semantic.py',36),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','semantic.py',40),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','semantic.py',41),
+  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','semantic.py',42),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','semantic.py',43),
+  ('expression -> NUMBER','expression',1,'p_expression_number','semantic.py',47),
+  ('expression -> IDENTIFIER','expression',1,'p_expression_identifier','semantic.py',51),
+  ('assignment -> IDENTIFIER ASSIGN expression','assignment',3,'p_assignment','semantic.py',57),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_grouped_expression','semantic.py',63),
 ]

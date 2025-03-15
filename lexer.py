@@ -17,9 +17,13 @@ t_RPAREN  = r'\)'
 t_ASSIGN  = r'='
 
 def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
+    r'\d+(\.\d+)?'  # Acepta enteros y flotantes
+    if '.' in t.value:
+        t.value = float(t.value)  # Convierte a float si tiene punto decimal
+    else:
+        t.value = int(t.value)  # Convierte a int si es entero
     return t
+
 
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
